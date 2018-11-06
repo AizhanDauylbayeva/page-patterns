@@ -6,7 +6,8 @@ import org.openqa.selenium.WebDriver;
 public class HomePage extends AbstractPage{
     private static final By USERNAME_LOCATOR = By.id("mailbox:login");
     private static final By PASSWORD_LOCATOR = By.id("mailbox:password");
-    private static final By LOGIN_BUTTON_LOCATOR = By.xpath("//*[@id='mailbox:submit']/input");
+    private static final By SIGNIN_BUTTON_LOCATOR = By.xpath("//*[@id='mailbox:submit']/input");
+    private static final By DOMAIN_LOCATOR = By.xpath("//*[@id='mailbox:domain']/option[4]");
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -23,12 +24,12 @@ public class HomePage extends AbstractPage{
     }
 
     public HomePage chooseDomain() {
-        driver.findElement(By.xpath("//*[@id='mailbox:domain']/option[4]")).click();
+        driver.findElement(DOMAIN_LOCATOR).click();
         return this;
     }
 
-    public InboxPage startSearch() {
-        driver.findElement(LOGIN_BUTTON_LOCATOR).click();
+    public InboxPage signIn() {
+        driver.findElement(SIGNIN_BUTTON_LOCATOR).click();
         return new InboxPage(driver);
     }
 
