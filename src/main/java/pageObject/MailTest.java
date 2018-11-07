@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageObject.pages.*;
@@ -24,6 +25,11 @@ public class MailTest {
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         drafts = new DraftsFolderPage(driver);
+    }
+
+    @AfterClass
+    private void tearDown(){
+        driver.close();
     }
 
     @Test(description = "Login test")
@@ -67,15 +73,19 @@ public class MailTest {
     public void sendMailTest(){
         drafts.sendMail();
         drafts.openDraftsFolder();
-        WebElement select = driver.findElement(DraftsFolderPage.DATALIST_LOCATOR);
-        List<WebElement> subjects = select.findElements(By.tagName("Subject"));
+        driver.navigate().refresh();
+        List<WebElement> selects = driver.findElements(DraftsFolderPage.DATALIST_LOCATOR);
+        for (WebElement select: selects){
+            System.out.println(select.getText());
+        }
+        boolean subj = false;
         try {
-        for (WebElement subject: subjects){
-            boolean subj = ("test(module 5)".equals(subject.getText()));
-            Assert.assertFalse(subj);
+        for (WebElement select: selects){
+            subj = (select.getText().contains("test(module 5)"));
         }} catch (Exception e){
             System.out.println("The folder is empty");
         }
+        Assert.assertFalse(subj);
     }
 
     @Test(dependsOnMethods = "sendMailTest")
@@ -89,6 +99,5 @@ public class MailTest {
             Assert.assertTrue(subj);
         }
         sentPage.logout();
-        driver.close();
     }
 }
