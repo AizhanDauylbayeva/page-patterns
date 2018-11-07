@@ -1,6 +1,5 @@
 package pageFactory.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -10,10 +9,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class AbstractPagePF {
     private static final int WAIT_FOR_ELEMENT_TIMEOUT_SECONDS = 10;
     protected WebDriver driver;
-
-    public boolean isElementPresent(WebElement element) {
-        return !element.isEmpty();
-    }
 
     protected AbstractPagePF(WebDriver driver) {
         this.driver = driver;

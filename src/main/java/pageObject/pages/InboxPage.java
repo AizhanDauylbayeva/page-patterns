@@ -7,12 +7,11 @@ public class InboxPage extends AbstractPage {
     public static final By USER_EMAIL_LOCATOR  = By.xpath("//*[@id='PH_user-email']");
     private static final By CREATE_MAIL_LOCATOR = By.xpath("//*[@id='b-toolbar__left']//span");
 
-    public InboxPage(WebDriver driver){
+    InboxPage(WebDriver driver){
         super(driver);
     }
 
-    public CreateNewMailPage openWriteNewMail(){
+    public void openWriteNewMail(){
         driver.findElement(CREATE_MAIL_LOCATOR).click();
-        return new CreateNewMailPage(driver);
     }
 }

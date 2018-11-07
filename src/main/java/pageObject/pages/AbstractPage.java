@@ -9,7 +9,7 @@ public class AbstractPage {
     private static final int WAIT_FOR_ELEMENT_TIMEOUT_SECONDS = 10;
     protected WebDriver driver;
 
-    public AbstractPage(WebDriver driver) {
+    AbstractPage(WebDriver driver) {
         this.driver = driver;
     }
 

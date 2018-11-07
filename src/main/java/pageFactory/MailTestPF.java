@@ -27,63 +27,72 @@ public class MailTestPF {
     }
 
     @Test(description = "Login test")
-    public void loginTest(){
+    public void loginTest() {
         InboxPagePF inbox = new HomePagePF(driver).open().fillUsername("new_account_2018").fillPassword("password2018").chooseDomain().signIn();
-        //TODO: wait for presence
-        Assert.assertTrue(inbox.isElementPresent(InboxPagePF.user_email));
+        inbox.waitForUserEmail();
+        Assert.assertTrue(InboxPagePF.user_email.isDisplayed());
         inbox.openWriteNewMail();
     }
 
     @Test(dependsOnMethods = "loginTest")
-    public void saveNewMailTest(){
+    public void saveNewMailTest() {
         CreateNewMailPagePF newMail = new CreateNewMailPagePF(driver);
         newMail.fillAddressee("ayzhan7797@mail.ru");
         newMail.fillSubject("test(module 5)");
         newMail.fillBody("Hello!");
         newMail.saveDraft();
-        Assert.assertTrue(newMail.isElementPresent(CreateNewMailPagePF.SAVED_LOCATOR));
+        Assert.assertTrue(CreateNewMailPagePF.saved.isDisplayed());
         newMail.openDraftsFolder();
     }
 
-    @Test (dependsOnMethods = "saveNewMailTest")
-    public void testAddressee(){
-        Assert.assertTrue(drafts.isElementPresent(DraftsFolderPagePF.FILLED_ADDRESSEE_LOCATOR));
+    @Test(dependsOnMethods = "saveNewMailTest")
+    public void testAddressee() {
+        Assert.assertTrue(DraftsFolderPagePF.filled_addr.isDisplayed());
     }
 
-    @Test (dependsOnMethods = "testAddressee")
-    public void testSubject(){
+    @Test(dependsOnMethods = "testAddressee")
+    public void testSubject() {
         drafts.openMail();
-        Assert.assertTrue(drafts.isElementPresent(DraftsFolderPagePF.FILLED_SUBJECT_LOCATOR));
+        Assert.assertTrue(DraftsFolderPagePF.filled_subj.isEnabled());
     }
 
-    @Test (dependsOnMethods = "testSubject")
-    public void testContent(){
+    @Test(dependsOnMethods = "testSubject")
+    public void testContent() {
         driver.switchTo().frame(0);
-        Assert.assertTrue(drafts.isElementPresent(DraftsFolderPagePF.FILLED_BODY_LOCATOR));
+        Assert.assertTrue(DraftsFolderPagePF.filled_body.isDisplayed());
         driver.switchTo().defaultContent();
     }
 
     @Test(dependsOnMethods = "testContent")
-    public void sendMailTest(){
+    public void sendMailTest() {
         drafts.sendMail();
         drafts.openDraftsFolder();
-        WebElement select = driver.findElement(DraftsFolderPagePF.DATALIST_LOCATOR);
+        WebElement select = DraftsFolderPagePF.datalist;
         List<WebElement> subjects = select.findElements(By.tagName("Subject"));
-        for (WebElement subject: subjects){
-            boolean subj = ("test(module 5)".equals(subject.getText()));
-            Assert.assertFalse(subj);
+        try {
+            for (WebElement subject : subjects) {
+                boolean subj = ("test(module 5)".equals(subject.getText()));
+                Assert.assertFalse(subj);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     @Test(dependsOnMethods = "sendMailTest")
-    public void sentFolderTest(){
+    public void sentFolderTest() {
         SentFolderPagePF sentPage = new SentFolderPagePF(driver);
         drafts.openSentFolder();
-        WebElement select = driver.findElement(SentFolderPagePF.DATALIST_LOCATOR);
+        WebElement select = SentFolderPagePF.sent_list;
         List<WebElement> subjects = select.findElements(By.tagName("Subject"));
-        for (WebElement subject: subjects){
-            boolean subj = ("test(module 5)".equals(subject.getText()));
-            Assert.assertTrue(subj);
+        try {
+            for (WebElement subject : subjects) {
+                boolean subj = ("test(module 5)".equals(subject.getText()));
+                Assert.assertTrue(subj);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         sentPage.logout();
         driver.close();

@@ -7,16 +7,16 @@ import org.openqa.selenium.support.FindBy;
 public class HomePagePF extends AbstractPagePF {
 
     @FindBy(id = "mailbox:login")
-    WebElement username;
+    private static WebElement username;
 
     @FindBy(id = "mailbox:password")
-    WebElement password;
+    private static WebElement password;
 
     @FindBy(xpath = "//*[@id='mailbox:submit']/input")
-    WebElement signInButton;
+    private static WebElement signInButton;
 
     @FindBy(xpath = "//*[@id='mailbox:domain']/option[4]")
-    WebElement domain;
+    private static WebElement domain;
 
     public HomePagePF(WebDriver driver) {
         super(driver);

@@ -3,24 +3,23 @@ package pageFactory.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import pageObject.pages.DraftsFolderPage;
 
 public class CreateNewMailPagePF extends AbstractPagePF{
 
     @FindBy(xpath = "//textarea[@data-original-name='To']")
-    private WebElement addressee;
+    private static WebElement addressee;
 
     @FindBy(xpath = "//input[@class='b-input' ]")
-    private WebElement subject;
+    private static WebElement subject;
 
     @FindBy(css = "#tinymce")
-    private WebElement body;
+    private static WebElement body;
 
     @FindBy(xpath = "//div[@data-name='saveDraft']")
-    private WebElement saveDraft_Button;
+    private static WebElement saveDraft_Button;
 
     @FindBy(xpath = "//a[@class='toolbar__message_info__link']")
-    WebElement saved;
+    public static WebElement saved;
 
     @FindBy(xpath = "//div[@class='b-toolbar__message']/a")
     private WebElement draftsFolder_Button;
@@ -47,8 +46,7 @@ public class CreateNewMailPagePF extends AbstractPagePF{
         saveDraft_Button.click();
     }
 
-    public DraftsFolderPagePF openDraftsFolder(){
+    public void openDraftsFolder(){
         draftsFolder_Button.click();
-        return new DraftsFolderPagePF(driver);
     }
 }

@@ -10,14 +10,17 @@ public class InboxPagePF extends AbstractPagePF {
     public static WebElement user_email;
 
     @FindBy(xpath = "//*[@id='b-toolbar__left']//span")
-    WebElement createNewMailButton;
+    private static WebElement createNewMailButton;
 
-    public InboxPagePF(WebDriver driver){
+    InboxPagePF(WebDriver driver){
         super(driver);
     }
 
-    public CreateNewMailPagePF openWriteNewMail(){
+    public void waitForUserEmail(){
+        waitForElementVisible(user_email);
+    }
+
+    public void openWriteNewMail(){
         createNewMailButton.click();
-        return new CreateNewMailPagePF(driver);
     }
 }

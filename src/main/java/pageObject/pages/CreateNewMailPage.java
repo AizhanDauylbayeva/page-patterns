@@ -30,13 +30,11 @@ public class CreateNewMailPage extends AbstractPage {
         driver.switchTo().defaultContent();
     }
 
-    public CreateNewMailPage saveDraft (){
+    public void saveDraft (){
         driver.findElement(SAVE_DRAFT_BUTTON_LOCATOR).click();
-        return this;
     }
 
-    public DraftsFolderPage openDraftsFolder(){
+    public void openDraftsFolder(){
         driver.findElement(DRAFT_FOLDER_LOCATOR).click();
-        return new DraftsFolderPage(driver);
     }
 }
