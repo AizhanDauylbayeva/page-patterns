@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 public class DraftsFolderPagePF extends AbstractPagePF {
 
     @FindBy(xpath = "//div[@class='b-datalist__item__addr' and contains(string(), 'ayzhan7797@mail.ru')]")
@@ -22,7 +24,7 @@ public class DraftsFolderPagePF extends AbstractPagePF {
     private static WebElement drafts_folder_button;
 
     @FindBy(xpath = "//*[@class='b-datalist b-datalist_letters b-datalist_letters_to']//div[@class='b-datalist__item__subj']")
-    public static WebElement datalist;
+    public static List<WebElement> datalist;
 
     @FindBy(xpath = "//a[@href='/messages/sent/']")
     private static WebElement sent_folder_button;

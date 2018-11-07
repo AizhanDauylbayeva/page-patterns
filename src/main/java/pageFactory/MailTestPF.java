@@ -65,36 +65,34 @@ public class MailTestPF {
 
     @Test(dependsOnMethods = "testContent")
     public void sendMailTest() {
+        driver.switchTo().defaultContent();
         drafts.sendMail();
         drafts.openDraftsFolder();
-        WebElement select = DraftsFolderPagePF.datalist;
-        List<WebElement> subjects = select.findElements(By.tagName("Subject"));
+        driver.navigate().refresh();
+        List<WebElement> selects = DraftsFolderPagePF.datalist;
+        boolean subj = false;
         try {
-            for (WebElement subject : subjects) {
-                boolean subj = ("test(module 5)".equals(subject.getText()));
-                Assert.assertFalse(subj);
+            for (WebElement select : selects) {
+                subj = (select.getText().contains("test(module 5)"));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        Assert.assertFalse(subj);
     }
 
     @Test(dependsOnMethods = "sendMailTest")
     public void sentFolderTest() {
-        SentFolderPagePF sentPage = new SentFolderPagePF(driver);
         drafts.openSentFolder();
-        WebElement select = SentFolderPagePF.sent_list;
-        List<WebElement> subjects = select.findElements(By.tagName("Subject"));
+        List<WebElement> selects = SentFolderPagePF.sent_list;
+        boolean subj = true;
         try {
-            for (WebElement subject : subjects) {
-                boolean subj = ("test(module 5)".equals(subject.getText()));
-                Assert.assertTrue(subj);
+            for (WebElement select : selects) {
+                subj = (select.getText().contains("test(module 5)"));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        sentPage.logout();
-        driver.close();
+        Assert.assertTrue(subj);
     }
 }
