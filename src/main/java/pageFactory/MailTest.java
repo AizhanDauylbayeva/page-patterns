@@ -15,7 +15,8 @@ import java.util.concurrent.TimeUnit;
 public class MailTest {
     private WebDriver driver;
     private DraftsFolderPage drafts;
-    private CreateNewMailPage newMail;
+    private Mail mail = new Mail("ayzhan7797@mail.ru", "test(module 4.2)", "Hello!");
+    private User user = new User("new_account_2018", "password2018");
 
     @BeforeClass(description = "Start browser")
     private void initBrowser() {
@@ -25,7 +26,7 @@ public class MailTest {
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         drafts = new DraftsFolderPage(driver);
-        newMail = new CreateNewMailPage(driver);
+
     }
 
     @AfterClass
@@ -37,7 +38,7 @@ public class MailTest {
 
     @Test(description = "Login test")
     public void loginTest() {
-        InboxPage inbox = new HomePage(driver).open().fillUsername("new_account_2018").fillPassword("password2018").chooseDomain().signIn();
+        InboxPage inbox = new HomePage(driver).open().fillUsername(user.getUsername()).fillPassword(user.getPass()).chooseDomain().signIn();
         inbox.waitForUserEmail();
         Assert.assertTrue(InboxPage.getUserEmail().isDisplayed());
         inbox.openWriteNewMail();
@@ -45,9 +46,10 @@ public class MailTest {
 
     @Test(dependsOnMethods = "loginTest")
     public void saveNewMailTest() {
-        newMail.fillAddressee(newMail.getAddressee());
-        newMail.fillSubject(newMail.getSubject());
-        newMail.fillBody(newMail.getBody());
+        CreateNewMailPage newMail = new CreateNewMailPage(driver);
+        newMail.fillAddressee(mail.getAddressee());
+        newMail.fillSubject(mail.getSubject());
+        newMail.fillBody(mail.getBody());
         newMail.saveDraft();
         Assert.assertTrue(CreateNewMailPage.getSaved().isDisplayed());
         newMail.openDraftsFolder();
@@ -81,7 +83,7 @@ public class MailTest {
         boolean subj = false;
         try {
             for (WebElement select : selects) {
-                subj = (select.getText().contains(newMail.getSubject()));
+                subj = (select.getText().contains(mail.getSubject()));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,7 +98,7 @@ public class MailTest {
         boolean subj = true;
         try {
             for (WebElement select : selects) {
-                subj = (select.getText().contains(newMail.getSubject()));
+                subj = (select.getText().contains(mail.getSubject()));
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -24,24 +24,8 @@ public class CreateNewMailPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='b-toolbar__message']/a")
     private WebElement draftsFolderButton;
 
-    private String addressee = "ayzhan7797@mail.ru";
-    private String subject = "test(module 4.2)";
-    private String body = "Hello!";
-
     public CreateNewMailPage(WebDriver driver) {
         super(driver);
-    }
-
-    public String getAddressee() {
-        return addressee;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public String getBody() {
-        return body;
     }
 
     public static WebElement getSaved() {
