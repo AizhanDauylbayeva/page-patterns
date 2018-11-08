@@ -10,24 +10,9 @@ public class CreateNewMailPage extends AbstractPage {
     private static final By SAVE_DRAFT_BUTTON_LOCATOR = By.xpath("//div[@data-name='saveDraft']");
     private static final By SAVED_LOCATOR = By.xpath("//a[@class='toolbar__message_info__link']");
     private static final By DRAFT_FOLDER_LOCATOR = By.xpath("//div[@class='b-toolbar__message']/a");
-    private String addressee = "ayzhan7797@mail.ru";
-    private String subject = "test(module 4.2)";
-    private String body = "Hello!";
 
     public CreateNewMailPage(WebDriver driver) {
         super(driver);
-    }
-
-    public String getAddressee() {
-        return addressee;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public String getBody() {
-        return body;
     }
 
     public static By getSavedLocator() {

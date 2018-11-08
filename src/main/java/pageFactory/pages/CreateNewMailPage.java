@@ -7,10 +7,10 @@ import org.openqa.selenium.support.FindBy;
 public class CreateNewMailPage extends AbstractPage {
 
     @FindBy(xpath = "//textarea[@data-original-name='To']")
-    private static WebElement addresseeLocator;
+    private static WebElement addresseeTextArea;
 
     @FindBy(xpath = "//input[@class='b-input' ]")
-    private static WebElement subjectLocator;
+    private static WebElement subjectTextArea;
 
     @FindBy(css = "#tinymce")
     private static WebElement bodyLocator;
@@ -33,11 +33,11 @@ public class CreateNewMailPage extends AbstractPage {
     }
 
     public void fillAddressee(String addr){
-        addresseeLocator.sendKeys(addr);
+        addresseeTextArea.sendKeys(addr);
     }
 
     public void fillSubject(String subj){
-        subjectLocator.sendKeys(subj);
+        subjectTextArea.sendKeys(subj);
     }
 
     public void fillBody(String content){

@@ -10,7 +10,7 @@ public class DraftsFolderPage extends AbstractPage{
     private static final By FILLED_BODY_LOCATOR = By.xpath("//*[@class = 'js-helper js-readmsg-msg' and contains(string(), 'Hello!')]");
     private static final By SEND_BUTTON_LOCATOR = By.xpath("//div[@data-name='send']/span");
     private static final By DRAFTS_FOLDER_LOCATOR = By.xpath("//a[@data-mnemo='drafts']");
-    private static final By DATALIST_LOCATOR = By.xpath(".//*[@class='b-datalist b-datalist_letters b-datalist_letters_to']//div[@class='b-datalist__item__subj']");
+    private static final By DATALIST_LOCATOR = By.xpath("//*[@class='b-datalist b-datalist_letters b-datalist_letters_to']//div[@class='b-datalist__item__subj']");
     private static final By SENT_FOLDER_LOCATOR = By.xpath("//a[@href='/messages/sent/']");
 
     public DraftsFolderPage(WebDriver driver) {
@@ -45,7 +45,8 @@ public class DraftsFolderPage extends AbstractPage{
         driver.findElement(DRAFTS_FOLDER_LOCATOR).click();
     }
 
-    public void openSentFolder(){
+    public SentFolderPage openSentFolder(){
         driver.findElement(SENT_FOLDER_LOCATOR).click();
+        return new SentFolderPage(driver);
     }
 }

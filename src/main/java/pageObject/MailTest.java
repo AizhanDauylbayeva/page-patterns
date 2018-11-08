@@ -16,6 +16,8 @@ public class MailTest {
     private WebDriver driver;
     private DraftsFolderPage drafts;
     private CreateNewMailPage newMail;
+    private Mail mail = new Mail("ayzhan7797@mail.ru", "test(module 4.2)", "Hello!");
+    private User user = new User("new_account_2018", "password2018");
 
     @BeforeClass(description = "Start browser")
     private void initBrowser() {
@@ -28,16 +30,9 @@ public class MailTest {
         newMail = new CreateNewMailPage(driver);
     }
 
-    @AfterClass
-    private void tearDown() {
-        SentFolderPage sentPage = new SentFolderPage(driver);
-        sentPage.logout();
-        driver.close();
-    }
-
     @Test(description = "Login test")
     public void loginTest() {
-        InboxPage inbox = new HomePage(driver).open().inputUsername("new_account_2018").inputPassword("password2018").chooseDomain().signIn();
+        InboxPage inbox = new HomePage(driver).open().inputUsername(user.getUsername()).inputPassword(user.getPass()).chooseDomain().signIn();
         //TODO: wait for presence
         Assert.assertTrue(inbox.isElementPresent(InboxPage.getUserEmailLocator()));
         inbox.openWriteNewMail();
@@ -45,9 +40,9 @@ public class MailTest {
 
     @Test(dependsOnMethods = "loginTest")
     public void saveNewMailTest() {
-        newMail.fillAddressee(newMail.getAddressee());
-        newMail.fillSubject(newMail.getSubject());
-        newMail.fillBody(newMail.getBody());
+        newMail.fillAddressee(mail.getAddressee());
+        newMail.fillSubject(mail.getSubject());
+        newMail.fillBody(mail.getBody());
         newMail.saveDraft();
         Assert.assertTrue(newMail.isElementPresent(CreateNewMailPage.getSavedLocator()));
         newMail.openDraftsFolder();
@@ -78,9 +73,12 @@ public class MailTest {
         driver.navigate().refresh();
         List<WebElement> selects = driver.findElements(DraftsFolderPage.getDatalistLocator());
         boolean subj = false;
+        for (WebElement select : selects) {
+            System.out.println(select);
+        }
         try {
             for (WebElement select : selects) {
-                subj = (select.getText().contains(newMail.getSubject()));
+                subj = (select.getText().contains(mail.getSubject()));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,15 +89,27 @@ public class MailTest {
     @Test(dependsOnMethods = "sendMailTest")
     public void sentFolderTest() {
         drafts.openSentFolder();
+        driver.navigate().refresh();
         List<WebElement> sent = driver.findElements(SentFolderPage.getSentlistLocator());
         boolean subj = true;
+        for (WebElement select : sent) {
+            System.out.println();
+            System.out.println(select);
+        }
         try {
             for (WebElement select : sent) {
-                subj = (select.getText().contains(newMail.getSubject()));
+                subj = (select.getText().contains(mail.getSubject()));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         Assert.assertTrue(subj);
+    }
+
+    @AfterClass
+    private void tearDown() {
+        SentFolderPage sentPage = new SentFolderPage(driver);
+        sentPage.logout();
+        driver.close();
     }
 }

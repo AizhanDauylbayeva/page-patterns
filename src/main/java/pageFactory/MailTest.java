@@ -26,14 +26,6 @@ public class MailTest {
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         drafts = new DraftsFolderPage(driver);
-
-    }
-
-    @AfterClass
-    private void tearDown() {
-        SentFolderPage sentPage = new SentFolderPage(driver);
-        sentPage.logout();
-        driver.close();
     }
 
     @Test(description = "Login test")
@@ -94,6 +86,7 @@ public class MailTest {
     @Test(dependsOnMethods = "sendMailTest")
     public void sentFolderTest() {
         drafts.openSentFolder();
+        driver.navigate().refresh();
         List<WebElement> selects = SentFolderPage.getSentList();
         boolean subj = true;
         try {
@@ -104,5 +97,12 @@ public class MailTest {
             e.printStackTrace();
         }
         Assert.assertTrue(subj);
+    }
+
+    @AfterClass
+    private void tearDown() {
+        SentFolderPage sentPage = new SentFolderPage(driver);
+        sentPage.logout();
+        driver.close();
     }
 }
