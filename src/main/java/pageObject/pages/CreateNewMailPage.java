@@ -8,25 +8,44 @@ public class CreateNewMailPage extends AbstractPage {
     private static final By SUBJECT_LOCATOR = By.xpath("//input[@class='b-input' ]");
     private static final By BODY_LOCATOR = By.cssSelector("#tinymce");
     private static final By SAVE_DRAFT_BUTTON_LOCATOR = By.xpath("//div[@data-name='saveDraft']");
-    public static final By SAVED_LOCATOR = By.xpath("//a[@class='toolbar__message_info__link']");
+    private static final By SAVED_LOCATOR = By.xpath("//a[@class='toolbar__message_info__link']");
     private static final By DRAFT_FOLDER_LOCATOR = By.xpath("//div[@class='b-toolbar__message']/a");
+    private String addressee = "ayzhan7797@mail.ru";
+    private String subject = "test(module 4.2)";
+    private String body = "Hello!";
 
     public CreateNewMailPage(WebDriver driver) {
         super(driver);
     }
 
-    public void fillAddressee(String addressee){
+    public String getAddressee() {
+        return addressee;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public static By getSavedLocator() {
+        return SAVED_LOCATOR;
+    }
+
+    public void fillAddressee(String addr){
         waitForElementPresent(ADDRESSEE_LOCATOR);
-        driver.findElement(ADDRESSEE_LOCATOR).sendKeys(addressee);
+        driver.findElement(ADDRESSEE_LOCATOR).sendKeys(addr);
     }
 
-    public void fillSubject(String subject){
-        driver.findElement(SUBJECT_LOCATOR).sendKeys(subject);
+    public void fillSubject(String subj){
+        driver.findElement(SUBJECT_LOCATOR).sendKeys(subj);
     }
 
-    public void fillBody(String body){
+    public void fillBody(String content){
         driver.switchTo().frame(0);
-        driver.findElement(BODY_LOCATOR).sendKeys(body);
+        driver.findElement(BODY_LOCATOR).sendKeys(content);
         driver.switchTo().defaultContent();
     }
 

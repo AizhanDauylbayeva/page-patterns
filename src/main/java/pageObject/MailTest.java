@@ -1,6 +1,5 @@
 package pageObject;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -16,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class MailTest {
     private WebDriver driver;
     private DraftsFolderPage drafts;
-    private SentFolderPage sentPage;
+    private CreateNewMailPage newMail;
 
     @BeforeClass(description = "Start browser")
     private void initBrowser() {
@@ -26,11 +25,12 @@ public class MailTest {
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         drafts = new DraftsFolderPage(driver);
-        sentPage = new SentFolderPage(driver);
+        newMail = new CreateNewMailPage(driver);
     }
 
     @AfterClass
     private void tearDown() {
+        SentFolderPage sentPage = new SentFolderPage(driver);
         sentPage.logout();
         driver.close();
     }
@@ -39,36 +39,35 @@ public class MailTest {
     public void loginTest() {
         InboxPage inbox = new HomePage(driver).open().inputUsername("new_account_2018").inputPassword("password2018").chooseDomain().signIn();
         //TODO: wait for presence
-        Assert.assertTrue(inbox.isElementPresent(InboxPage.USER_EMAIL_LOCATOR));
+        Assert.assertTrue(inbox.isElementPresent(InboxPage.getUserEmailLocator()));
         inbox.openWriteNewMail();
     }
 
     @Test(dependsOnMethods = "loginTest")
     public void saveNewMailTest() {
-        CreateNewMailPage newMail = new CreateNewMailPage(driver);
-        newMail.fillAddressee("ayzhan7797@mail.ru");
-        newMail.fillSubject("test(module 5)");
-        newMail.fillBody("Hello!");
+        newMail.fillAddressee(newMail.getAddressee());
+        newMail.fillSubject(newMail.getSubject());
+        newMail.fillBody(newMail.getBody());
         newMail.saveDraft();
-        Assert.assertTrue(newMail.isElementPresent(CreateNewMailPage.SAVED_LOCATOR));
+        Assert.assertTrue(newMail.isElementPresent(CreateNewMailPage.getSavedLocator()));
         newMail.openDraftsFolder();
     }
 
     @Test(dependsOnMethods = "saveNewMailTest")
     public void testAddressee() {
-        Assert.assertTrue(drafts.isElementPresent(DraftsFolderPage.FILLED_ADDRESSEE_LOCATOR));
+        Assert.assertTrue(drafts.isElementPresent(DraftsFolderPage.getFilledAddresseeLocator()));
     }
 
     @Test(dependsOnMethods = "testAddressee")
     public void testSubject() {
         drafts.openMail();
-        Assert.assertTrue(drafts.isElementPresent(DraftsFolderPage.FILLED_SUBJECT_LOCATOR));
+        Assert.assertTrue(drafts.isElementPresent(DraftsFolderPage.getFilledSubjectLocator()));
     }
 
     @Test(dependsOnMethods = "testSubject")
     public void testContent() {
         driver.switchTo().frame(0);
-        Assert.assertTrue(drafts.isElementPresent(DraftsFolderPage.FILLED_BODY_LOCATOR));
+        Assert.assertTrue(drafts.isElementPresent(DraftsFolderPage.getFilledBodyLocator()));
     }
 
     @Test(dependsOnMethods = "testContent")
@@ -77,11 +76,11 @@ public class MailTest {
         drafts.sendMail();
         drafts.openDraftsFolder();
         driver.navigate().refresh();
-        List<WebElement> selects = driver.findElements(DraftsFolderPage.DATALIST_LOCATOR);
+        List<WebElement> selects = driver.findElements(DraftsFolderPage.getDatalistLocator());
         boolean subj = false;
         try {
             for (WebElement select : selects) {
-                subj = (select.getText().contains("test(module 5)"));
+                subj = (select.getText().contains(newMail.getSubject()));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,11 +91,11 @@ public class MailTest {
     @Test(dependsOnMethods = "sendMailTest")
     public void sentFolderTest() {
         drafts.openSentFolder();
-        List<WebElement> selects = driver.findElements(SentFolderPage.DATALIST_LOCATOR);
+        List<WebElement> sent = driver.findElements(SentFolderPage.getSentlistLocator());
         boolean subj = true;
         try {
-            for (WebElement select : selects) {
-                subj = (select.getText().contains("test(module 5)"));
+            for (WebElement select : sent) {
+                subj = (select.getText().contains(newMail.getSubject()));
             }
         } catch (Exception e) {
             e.printStackTrace();

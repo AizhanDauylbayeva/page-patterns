@@ -6,19 +6,23 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class SentFolderPagePF extends AbstractPagePF{
+public class SentFolderPage extends AbstractPage {
 
     @FindBy(xpath = "//div[@class='b-datalist b-datalist_letters b-datalist_letters_to']//div[@class='b-datalist__item__subj']")
-    public static List<WebElement> sent_list;
+    private static List<WebElement> sentList;
 
     @FindBy(id = "PH_logoutLink")
     private static WebElement logout;
 
-    public SentFolderPagePF(WebDriver driver) {
+    public SentFolderPage(WebDriver driver) {
         super(driver);
     }
 
-    public void logout(){
+    public static List<WebElement> getSentList() {
+        return sentList;
+    }
+
+    public void logout() {
         logout.click();
     }
 }
