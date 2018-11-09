@@ -17,6 +17,7 @@ public class MailTest {
     private DraftsFolderPage drafts;
     private Mail mail = new Mail("ayzhan7797@mail.ru", "test(module 4.2)", "Hello!");
     private User user = new User("new_account_2018", "password2018");
+    private SentFolderPage sentPage;
 
     @BeforeClass(description = "Start browser")
     private void initBrowser() {
@@ -26,6 +27,7 @@ public class MailTest {
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         drafts = new DraftsFolderPage(driver);
+        sentPage = new SentFolderPage(driver);
     }
 
     @Test(description = "Login test")
@@ -43,7 +45,7 @@ public class MailTest {
         newMail.fillSubject(mail.getSubject());
         newMail.fillBody(mail.getBody());
         newMail.saveDraft();
-        Assert.assertTrue(CreateNewMailPage.getSaved().isDisplayed());
+        Assert.assertTrue(newMail.getSaved().isDisplayed());
         newMail.openDraftsFolder();
     }
 
@@ -87,7 +89,7 @@ public class MailTest {
     public void sentFolderTest() {
         drafts.openSentFolder();
         driver.navigate().refresh();
-        List<WebElement> selects = SentFolderPage.getSentList();
+        List<WebElement> selects = sentPage.getSentList();
         boolean subj = true;
         try {
             for (WebElement select : selects) {
@@ -101,7 +103,6 @@ public class MailTest {
 
     @AfterClass
     private void tearDown() {
-        SentFolderPage sentPage = new SentFolderPage(driver);
         sentPage.logout();
         driver.close();
     }

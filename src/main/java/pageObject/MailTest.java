@@ -73,9 +73,6 @@ public class MailTest {
         driver.navigate().refresh();
         List<WebElement> selects = driver.findElements(DraftsFolderPage.getDatalistLocator());
         boolean subj = false;
-        for (WebElement select : selects) {
-            System.out.println(select);
-        }
         try {
             for (WebElement select : selects) {
                 subj = (select.getText().contains(mail.getSubject()));
@@ -92,10 +89,6 @@ public class MailTest {
         driver.navigate().refresh();
         List<WebElement> sent = driver.findElements(SentFolderPage.getSentlistLocator());
         boolean subj = true;
-        for (WebElement select : sent) {
-            System.out.println();
-            System.out.println(select);
-        }
         try {
             for (WebElement select : sent) {
                 subj = (select.getText().contains(mail.getSubject()));

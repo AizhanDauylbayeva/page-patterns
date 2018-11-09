@@ -8,8 +8,8 @@ import java.util.List;
 
 public class SentFolderPage extends AbstractPage {
 
-    @FindBy(xpath = "//*[@class='b-datalist b-datalist_letters b-datalist_letters_to']//div[@class='b-datalist__item__subj']")
-    private static List<WebElement> sentList;
+    @FindBy(xpath = ".//*[@class='b-datalist b-datalist_letters b-datalist_letters_to']//*[@class='b-datalist__item__subj']")
+    private List<WebElement> sentList;
 
     @FindBy(id = "PH_logoutLink")
     private static WebElement logout;
@@ -18,7 +18,7 @@ public class SentFolderPage extends AbstractPage {
         super(driver);
     }
 
-    public static List<WebElement> getSentList() {
+    public List<WebElement> getSentList() {
         return sentList;
     }
 

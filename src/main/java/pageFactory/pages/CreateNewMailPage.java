@@ -13,13 +13,13 @@ public class CreateNewMailPage extends AbstractPage {
     private static WebElement subjectTextArea;
 
     @FindBy(css = "#tinymce")
-    private static WebElement bodyLocator;
+    private static WebElement bodyTextArea;
 
     @FindBy(xpath = "//div[@data-name='saveDraft']")
     private static WebElement saveDraftButton;
 
     @FindBy(xpath = "//a[@class='toolbar__message_info__link']")
-    private static WebElement saved;
+    private WebElement saved;
 
     @FindBy(xpath = "//div[@class='b-toolbar__message']/a")
     private WebElement draftsFolderButton;
@@ -28,7 +28,7 @@ public class CreateNewMailPage extends AbstractPage {
         super(driver);
     }
 
-    public static WebElement getSaved() {
+    public WebElement getSaved() {
         return saved;
     }
 
@@ -42,7 +42,7 @@ public class CreateNewMailPage extends AbstractPage {
 
     public void fillBody(String content){
         driver.switchTo().frame(0);
-        bodyLocator.sendKeys(content);
+        bodyTextArea.sendKeys(content);
         driver.switchTo().defaultContent();
     }
 
