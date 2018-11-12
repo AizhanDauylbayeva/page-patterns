@@ -6,17 +6,19 @@ import org.openqa.selenium.support.FindBy;
 
 public class CreateNewMailPage extends AbstractPage {
 
+   // public List<Mail> mail = new ArrayList<Mail>();
+
     @FindBy(xpath = "//textarea[@data-original-name='To']")
-    private static WebElement addresseeTextArea;
+    private WebElement addresseeTextArea;
 
     @FindBy(xpath = "//input[@class='b-input' ]")
-    private static WebElement subjectTextArea;
+    private WebElement subjectTextArea;
 
     @FindBy(css = "#tinymce")
-    private static WebElement bodyTextArea;
+    private WebElement bodyTextArea;
 
     @FindBy(xpath = "//div[@data-name='saveDraft']")
-    private static WebElement saveDraftButton;
+    private WebElement saveDraftButton;
 
     @FindBy(xpath = "//a[@class='toolbar__message_info__link']")
     private WebElement saved;
@@ -27,6 +29,10 @@ public class CreateNewMailPage extends AbstractPage {
     public CreateNewMailPage(WebDriver driver) {
         super(driver);
     }
+
+   /* public List<Mail> getSaved() {
+        return ;
+    }*/
 
     public WebElement getSaved() {
         return saved;
@@ -53,4 +59,11 @@ public class CreateNewMailPage extends AbstractPage {
     public void openDraftsFolder(){
         draftsFolderButton.click();
     }
+
+   /* @Override
+    public String toString() {
+        return "CreateNewMailPage{" +
+                "letters=" + letters +
+                '}';
+    }*/
 }

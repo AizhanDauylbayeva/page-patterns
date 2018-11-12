@@ -7,16 +7,16 @@ import org.openqa.selenium.support.FindBy;
 public class InboxPage extends AbstractPage {
 
     @FindBy(xpath = "//*[@id='PH_user-email']")
-    private static WebElement user_email;
+    private WebElement user_email;
 
     @FindBy(xpath = "//*[@id='b-toolbar__left']//span")
-    private static WebElement createNewMailButton;
+    private WebElement createNewMailButton;
 
     InboxPage(WebDriver driver){
         super(driver);
     }
 
-    public static WebElement getUserEmail() {
+    public WebElement getUserEmail() {
         return user_email;
     }
 

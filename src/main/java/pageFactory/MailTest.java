@@ -1,5 +1,6 @@
 package pageFactory;
-
+import Entity.Mail;
+import Entity.User;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -8,14 +9,14 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageFactory.pages.*;
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class MailTest {
     private WebDriver driver;
     private DraftsFolderPage drafts;
-    private Mail mail = new Mail("ayzhan7797@mail.ru", "test(module 4.2)", "Hello!");
+   // private List<Mail> mail = new ArrayList<Mail>();
+    Mail mail = new Mail("ayzhan7797@mail.ru", "test(module 4.2)", "Hello!");
     private User user = new User("new_account_2018", "password2018");
     private SentFolderPage sentPage;
 
@@ -23,18 +24,19 @@ public class MailTest {
     private void initBrowser() {
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
         driver = new ChromeDriver();
-        driver.manage().timeouts().pageLoadTimeout(25, TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         drafts = new DraftsFolderPage(driver);
         sentPage = new SentFolderPage(driver);
+       // mail.add(letter1);
     }
 
     @Test(description = "Login test")
     public void loginTest() {
         InboxPage inbox = new HomePage(driver).open().fillUsername(user.getUsername()).fillPassword(user.getPass()).chooseDomain().signIn();
         inbox.waitForUserEmail();
-        Assert.assertTrue(InboxPage.getUserEmail().isDisplayed());
+        Assert.assertTrue(inbox.getUserEmail().isDisplayed());
         inbox.openWriteNewMail();
     }
 
@@ -45,25 +47,28 @@ public class MailTest {
         newMail.fillSubject(mail.getSubject());
         newMail.fillBody(mail.getBody());
         newMail.saveDraft();
+        newMail.getSaved();
         Assert.assertTrue(newMail.getSaved().isDisplayed());
         newMail.openDraftsFolder();
     }
 
     @Test(dependsOnMethods = "saveNewMailTest")
     public void testAddressee() {
-        Assert.assertTrue(DraftsFolderPage.getFilledAddr().isDisplayed());
+        drafts.openMail();
+        Assert.assertTrue(drafts.getFilledAddr().getText().contains(mail.getAddressee()));
+
     }
 
     @Test(dependsOnMethods = "testAddressee")
     public void testSubject() {
-        drafts.openMail();
-        Assert.assertTrue(DraftsFolderPage.getFilledSubj().isEnabled());
+//      Assert.assertTrue(drafts.getFilledSubj().isEnabled());
+        Assert.assertTrue(drafts.getFilledSubj().getText().contains(mail.getSubject()));
     }
 
     @Test(dependsOnMethods = "testSubject")
     public void testContent() {
         driver.switchTo().frame(0);
-        Assert.assertTrue(DraftsFolderPage.getFilledBody().isDisplayed());
+        Assert.assertTrue(drafts.getFilledBody().isDisplayed());
         driver.switchTo().defaultContent();
     }
 
@@ -73,7 +78,7 @@ public class MailTest {
         drafts.sendMail();
         drafts.openDraftsFolder();
         driver.navigate().refresh();
-        List<WebElement> selects = DraftsFolderPage.getDatalist();
+        List<WebElement> selects = drafts.getDatalist();
         boolean subj = false;
         try {
             for (WebElement select : selects) {
