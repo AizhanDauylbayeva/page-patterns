@@ -54,9 +54,12 @@ public class MailTest {
 
     @Test(dependsOnMethods = "saveNewMailTest")
     public void testAddressee() {
-        drafts.openMail();
-        Assert.assertTrue(drafts.getFilledAddr().getText().contains(mail.getAddressee()));
-
+        List<WebElement> addr = drafts.getAddrList();
+        boolean addressee = true;
+        for (WebElement select : addr) {
+            addressee = (select.getText().contains(mail.getAddressee()));
+        }
+        Assert.assertTrue(addressee);
     }
 
     @Test(dependsOnMethods = "testAddressee")
@@ -96,13 +99,9 @@ public class MailTest {
         driver.navigate().refresh();
         List<WebElement> selects = sentPage.getSentList();
         boolean subj = true;
-        try {
             for (WebElement select : selects) {
                 subj = (select.getText().contains(mail.getSubject()));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         Assert.assertTrue(subj);
     }
 

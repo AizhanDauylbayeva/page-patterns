@@ -11,10 +11,10 @@ public class DraftsFolderPage extends AbstractPage {
   /*  @FindBy(xpath = "//div[@class='b-datalist__item__addr']")
     private WebElement draftsList;*/
 
-    @FindBy(xpath = "//div[@class='label-input']//span[@data-text]")
+    @FindBy(xpath = "//div[@class='b-datalist__item__addr']")
             //"//div[@class='label-input']//span[@data-text]")
             //"//div[@class='b-datalist__item__addr']") and contains(string(), 'ayzhan7797@mail.ru')]")
-    private WebElement filledAddr;
+    private List<WebElement > addrList;
 
     @FindBy(xpath = "//a[@data-subject")
     private WebElement filledSubj;
@@ -38,8 +38,8 @@ public class DraftsFolderPage extends AbstractPage {
         super(driver);
     }
 
-    public WebElement getFilledAddr() {
-        return filledAddr;
+    public List<WebElement> getAddrList() {
+        return addrList;
     }
 
     public WebElement getFilledSubj() {
@@ -52,10 +52,6 @@ public class DraftsFolderPage extends AbstractPage {
 
     public List<WebElement> getDatalist() {
         return datalist;
-    }
-
-    public void openMail() {
-        filledAddr.click();
     }
 
     public void sendMail() {
