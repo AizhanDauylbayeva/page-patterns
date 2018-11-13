@@ -26,6 +26,9 @@ public class CreateNewMailPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='b-toolbar__message']/a")
     private WebElement draftsFolderButton;
 
+    @FindBy(xpath = ".//div[@data-name='send']/span")
+    private WebElement sendButton;
+
     public CreateNewMailPage(WebDriver driver) {
         super(driver);
     }
@@ -60,6 +63,9 @@ public class CreateNewMailPage extends AbstractPage {
         draftsFolderButton.click();
     }
 
+    public void sendMail() {
+        sendButton.click();
+    }
    /* @Override
     public String toString() {
         return "CreateNewMailPage{" +

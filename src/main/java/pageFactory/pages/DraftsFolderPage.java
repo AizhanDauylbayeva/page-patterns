@@ -1,35 +1,28 @@
 package pageFactory.pages;
 
+import Entity.Mail;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DraftsFolderPage extends AbstractPage {
 
-  /*  @FindBy(xpath = "//div[@class='b-datalist__item__addr']")
-    private WebElement draftsList;*/
-
-    @FindBy(xpath = "//div[@class='b-datalist__item__addr']")
-            //"//div[@class='label-input']//span[@data-text]")
-            //"//div[@class='b-datalist__item__addr']") and contains(string(), 'ayzhan7797@mail.ru')]")
-    private List<WebElement > addrList;
-
-    @FindBy(xpath = "//a[@data-subject")
-    private WebElement filledSubj;
-////input[@name='Subject']
-    @FindBy(xpath = "//*[@class = 'js-helper js-readmsg-msg' and contains(string(), 'Hello!')]")
-    private WebElement filledBody;
-
-    @FindBy(xpath = "//div[@data-name='send']/span")
-    private WebElement sendButton;
+    @FindBy(xpath = ".//div[@class='b-datalist__item__addr']")
+    private List<WebElement> addrList;
 
     @FindBy(xpath = "//a[@data-mnemo='drafts']")
     private WebElement draftsFolderButton;
 
-    @FindBy(xpath = "//*[@class='b-datalist b-datalist_letters b-datalist_letters_to']//div[@class='b-datalist__item__subj']")
+    @FindBy(xpath = ".//div[@class='b-datalist__item__subj']")
     private List<WebElement> datalist;
+
+
+    @FindBy(xpath = ".//div[@class='b-datalist__item__panel']")
+    private List<WebElement> mails;
 
     @FindBy(xpath = "//a[@href='/messages/sent/']")
     private WebElement sentFolderButton;
@@ -42,20 +35,8 @@ public class DraftsFolderPage extends AbstractPage {
         return addrList;
     }
 
-    public WebElement getFilledSubj() {
-        return filledSubj;
-    }
-
-    public WebElement getFilledBody() {
-        return filledBody;
-    }
-
     public List<WebElement> getDatalist() {
         return datalist;
-    }
-
-    public void sendMail() {
-        sendButton.click();
     }
 
     public void openDraftsFolder() {
@@ -66,4 +47,14 @@ public class DraftsFolderPage extends AbstractPage {
         sentFolderButton.click();
     }
 
+    public List<Mail> getMails() {
+        List<Mail> results = new ArrayList<Mail>();
+        for (WebElement mail : mails) {
+            String address = mail.findElement(By.xpath(".//div[@class='b-datalist__item__addr']")).getText();
+            String subject = mail.findElement(By.xpath(".//div[@class='b-datalist__item__subj']")).getText();
+
+            results.add(new Mail(address, subject, null));
+        }
+        return results;
+    }
 }

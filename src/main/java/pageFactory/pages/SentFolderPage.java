@@ -7,8 +7,8 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 public class SentFolderPage extends AbstractPage {
-
-    @FindBy(xpath = ".//*[@class='b-datalist b-datalist_letters b-datalist_letters_to']//*[@class='b-datalist__item__subj']")
+    //*[@class='b-datalist b-datalist_letters b-datalist_letters_to']
+    @FindBy(xpath = ".//*[@class='b-datalist__item__subj']")
     private List<WebElement> sentList;
 
     @FindBy(id = "PH_logoutLink")
