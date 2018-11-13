@@ -6,8 +6,6 @@ import org.openqa.selenium.support.FindBy;
 
 public class CreateNewMailPage extends AbstractPage {
 
-   // public List<Mail> mail = new ArrayList<Mail>();
-
     @FindBy(xpath = "//textarea[@data-original-name='To']")
     private WebElement addresseeTextArea;
 
@@ -32,10 +30,6 @@ public class CreateNewMailPage extends AbstractPage {
     public CreateNewMailPage(WebDriver driver) {
         super(driver);
     }
-
-   /* public List<Mail> getSaved() {
-        return ;
-    }*/
 
     public WebElement getSaved() {
         return saved;
@@ -66,10 +60,5 @@ public class CreateNewMailPage extends AbstractPage {
     public void sendMail() {
         sendButton.click();
     }
-   /* @Override
-    public String toString() {
-        return "CreateNewMailPage{" +
-                "letters=" + letters +
-                '}';
-    }*/
+
 }

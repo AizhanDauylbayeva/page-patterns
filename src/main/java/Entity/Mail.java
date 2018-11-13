@@ -1,8 +1,5 @@
 package Entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Mail {
     private String addressee;
     private String subject;
@@ -15,11 +12,6 @@ public class Mail {
         this.body = body;
     }
 
-    /*public void getLetter(){
-        for (Mail letter : letters) {
-            System.out.println(letter);
-        }
-    }*/
     public String getAddressee() {
         return addressee;
     }

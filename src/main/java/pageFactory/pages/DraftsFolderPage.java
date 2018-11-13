@@ -14,15 +14,17 @@ public class DraftsFolderPage extends AbstractPage {
     @FindBy(xpath = ".//div[@class='b-datalist__item__addr']")
     private List<WebElement> addrList;
 
-    @FindBy(xpath = "//a[@data-mnemo='drafts']")
-    private WebElement draftsFolderButton;
-
     @FindBy(xpath = ".//div[@class='b-datalist__item__subj']")
-    private List<WebElement> datalist;
+    private List<WebElement> subjList;
 
+    @FindBy(xpath = ".//*[@class='b-datalist__item__subj__snippet']")
+    private List<WebElement> bodyList;
 
     @FindBy(xpath = ".//div[@class='b-datalist__item__panel']")
     private List<WebElement> mails;
+
+    @FindBy(xpath = "//a[@data-mnemo='drafts']")
+    private WebElement draftsFolderButton;
 
     @FindBy(xpath = "//a[@href='/messages/sent/']")
     private WebElement sentFolderButton;
@@ -35,8 +37,13 @@ public class DraftsFolderPage extends AbstractPage {
         return addrList;
     }
 
-    public List<WebElement> getDatalist() {
-        return datalist;
+    public List<WebElement> getSubjList() {
+        return subjList;
+    }
+
+
+    public List<WebElement> getBodyList() {
+        return bodyList;
     }
 
     public void openDraftsFolder() {
@@ -50,10 +57,10 @@ public class DraftsFolderPage extends AbstractPage {
     public List<Mail> getMails() {
         List<Mail> results = new ArrayList<Mail>();
         for (WebElement mail : mails) {
-            String address = mail.findElement(By.xpath(".//div[@class='b-datalist__item__addr']")).getText();
+            String addressee = mail.findElement(By.xpath(".//div[@class='b-datalist__item__addr']")).getText();
             String subject = mail.findElement(By.xpath(".//div[@class='b-datalist__item__subj']")).getText();
-
-            results.add(new Mail(address, subject, null));
+            String body = mail.findElement(By.xpath(".//*[@class='b-datalist__item__subj__snippet']")).getText();
+            results.add(new Mail(addressee, subject, body));
         }
         return results;
     }
