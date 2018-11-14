@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class DraftsFolderPage extends AbstractPage {
     @FindBy(xpath = ".//div[@class='b-datalist__item__addr']")
     private List<WebElement> addrList;
 
-    @FindBy(xpath = ".//div[@class='b-datalist__item__subj']")
+    @FindBy(xpath = ".//div[@class='b-datalist__item__subj']/text()")
     private List<WebElement> subjList;
 
     @FindBy(xpath = ".//*[@class='b-datalist__item__subj__snippet']")
@@ -41,7 +40,6 @@ public class DraftsFolderPage extends AbstractPage {
         return subjList;
     }
 
-
     public List<WebElement> getBodyList() {
         return bodyList;
     }
@@ -54,11 +52,14 @@ public class DraftsFolderPage extends AbstractPage {
         sentFolderButton.click();
     }
 
-    public List<Mail> getMails() {
+    public List<Mail> getSavedMails() {
         List<Mail> results = new ArrayList<Mail>();
         for (WebElement mail : mails) {
             String addressee = mail.findElement(By.xpath(".//div[@class='b-datalist__item__addr']")).getText();
-            String subject = mail.findElement(By.xpath(".//div[@class='b-datalist__item__subj']")).getText();
+            String div = mail.findElement(By.xpath(".//div[@class='b-datalist__item__subj']")).getText();
+            String span = mail.findElement(By.xpath(".//div[@class='b-datalist__item__subj']/span")).getText();
+            int index = div.indexOf(span);
+            String subject = div.substring(0, index);
             String body = mail.findElement(By.xpath(".//*[@class='b-datalist__item__subj__snippet']")).getText();
             results.add(new Mail(addressee, subject, body));
         }

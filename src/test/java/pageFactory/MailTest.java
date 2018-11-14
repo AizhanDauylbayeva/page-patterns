@@ -1,4 +1,5 @@
 package pageFactory;
+
 import Entity.Mail;
 import Entity.User;
 import org.openqa.selenium.WebElement;
@@ -7,22 +8,21 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageFactory.pages.*;
+
 import java.util.List;
 
 public class MailTest extends Base {
     private DraftsFolderPage draftsFolderPage;
     private Mail mail = new Mail("ayzhan7797@mail.ru", "test(module 4.2)", "Hello!");
-    private Mail secondMail = new Mail("<Не указано>", "<Без темы>", "");
+    private Mail secondMail = new Mail("<Не указано>", "<Без темы>", "-- Name LastName");
     private User user = new User("new_account_2018", "password2018");
     private SentFolderPage sentPage;
-    private List<WebElement> draftsList;
     private CreateNewMailPage newMail;
 
     @BeforeClass
     private void init() {
         newMail = new CreateNewMailPage(driver);
         draftsFolderPage = new DraftsFolderPage(driver);
-        draftsList = draftsFolderPage.getSubjList();
         sentPage = new SentFolderPage(driver);
     }
 
@@ -46,57 +46,63 @@ public class MailTest extends Base {
     }
 
     @Test(dependsOnMethods = "saveNewMailTest")
-    public void testAddressee() {
+    public void testContent() {
         newMail.openDraftsFolder();
         driver.navigate().to(driver.getCurrentUrl());
-        List<Mail> draftMails = draftsFolderPage.getMails();
-        boolean addr = true;
-        for (Mail draftMail : draftMails) {
-            addr = draftMail.getSubject().equals(mail.getAddressee());
-        }
-        Assert.assertTrue(addr);
+        List<Mail> draftMails = draftsFolderPage.getSavedMails();
+        boolean content = true;
+        for (int i = 0; i < draftMails.size(); i++) {
+            content =  (draftMails.get(0).getAddressee().equals(mail.getAddressee()) &
+                    draftMails.get(0).getSubject().equals(mail.getSubject()) &
+                    draftMails.get(0).getBody().contains(mail.getBody())) ;
+            }
+        Assert.assertTrue(content);
     }
-
-    /*@Test(dependsOnMethods = "testAddressee")
-    public void testSubject() {
-        List<Mail> draftMails = draftsFolderPage.getMails();
-        boolean subject = true;
-        for (Mail draftMail : draftMails) {
-            subject = draftMail.getSubject().equals(mail.getSubject());
-        }
-        Assert.assertTrue(subject);
-    }
-
-    @Test(dependsOnMethods = "testSubject")
-    public void testContent() {
-        List<Mail> draftMails = draftsFolderPage.getMails();
-        boolean body = true;
-        for (Mail draftMail : draftMails) {
-            body = draftMail.getSubject().equals(mail.getBody());
-        }
-        Assert.assertTrue(body);
-    }*/
 
     @Test(dependsOnMethods = "testContent")
+    public void testSecondMail() {
+        List<Mail> draftMails = draftsFolderPage.getSavedMails();
+        boolean content = false;
+        for (Mail draftMail : draftMails) {
+            if (draftMail.getAddressee().equals(secondMail.getAddressee()) &
+                    draftMail.getSubject().equals(secondMail.getSubject()) &
+                    draftMail.getBody().equals(secondMail.getBody())) {
+                content = true;
+            }
+        }
+        Assert.assertTrue(content);
+    }
+
+    @Test(dependsOnMethods = "testSecondMail")
     public void sendMailTest() {
-        draftsList.get(0).click();
+        List<WebElement> draftAddrList = draftsFolderPage.getAddrList();
+        draftAddrList.get(0).click();
         driver.navigate().refresh();
         newMail.sendMail();
         draftsFolderPage.openDraftsFolder();
         driver.navigate().refresh();
-        boolean subj = false;
-        subj = draftsList.get(0).getText().contains(mail.getSubject());
-        Assert.assertFalse(subj);
+        List<Mail> draftMails = draftsFolderPage.getSavedMails();
+        boolean content = false;
+        if (draftMails.get(0).getAddressee().equals(mail.getAddressee()) &
+                draftMails.get(0).getSubject().equals(mail.getSubject()) &
+                draftMails.get(0).getBody().contains(mail.getBody())) {
+            content = true;
+        }
+        Assert.assertFalse(content);
     }
 
     @Test(dependsOnMethods = "sendMailTest")
     public void sentFolderTest() {
         draftsFolderPage.openSentFolder();
         driver.navigate().refresh();
-        List<WebElement> sentList = sentPage.getSentList();
-        boolean subj = true;
-        subj = sentList.get(0).getText().contains(mail.getSubject());
-        Assert.assertTrue(subj);
+        List<Mail> sentList = sentPage.getSentList();
+        boolean content = false;
+        if (sentList.get(0).getAddressee().equals(mail.getAddressee()) &
+                sentList.get(0).getSubject().equals(mail.getSubject()) &
+                sentList.get(0).getBody().contains(mail.getBody())) {
+            content = true;
+        }
+        Assert.assertTrue(content);
     }
 
     @AfterClass
