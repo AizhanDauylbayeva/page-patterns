@@ -14,12 +14,6 @@ public class DraftsFolderPage extends AbstractPage {
     @FindBy(xpath = ".//div[@class='b-datalist__item__addr']")
     private List<WebElement> addrList;
 
-    @FindBy(xpath = ".//div[@class='b-datalist__item__subj']/text()")
-    private List<WebElement> subjList;
-
-    @FindBy(xpath = ".//*[@class='b-datalist__item__subj__snippet']")
-    private List<WebElement> bodyList;
-
     @FindBy(xpath = ".//div[@class='b-datalist__item__panel']")
     private List<WebElement> mails;
 
@@ -33,7 +27,7 @@ public class DraftsFolderPage extends AbstractPage {
         super(driver);
     }
 
-    public List<WebElement> getAddrList() {
+    private List<WebElement> getAddrList() {
         return addrList;
     }
 
@@ -58,16 +52,7 @@ public class DraftsFolderPage extends AbstractPage {
         }
         return results;
     }
-
-/*    public List<Mail> getSavedMails() {
-        List<Mail> results = new ArrayList<Mail>();
-        for (WebElement mail : mails) {
-            WebElement addressee = mail.findElement(By.xpath(".//div[@class='b-datalist__item__addr']"));
-            WebElement subject = mail.findElement(By.xpath(".//div[@class='b-datalist__item__subj']"));
-        }
-        return results;
-    }*/
-
+    
     public void openSavedMail(){
         getAddrList().get(0).click();
     }
