@@ -30,8 +30,7 @@ public class MailTest extends Base {
     @Test(description = "Login test")
     public void loginTest() {
         inbox = new HomePage(driver).open().fillUsername(user.getUsername()).fillPassword(user.getPass()).chooseDomain().signIn();
-        inbox.waitForUserEmail();
-        Assert.assertTrue(inbox.getUserEmail().isDisplayed());
+        Assert.assertTrue(inbox.isUserSignIn());
     }
 
     @Test(dependsOnMethods = "loginTest")
@@ -41,7 +40,7 @@ public class MailTest extends Base {
         newMailPage.fillSubject(mail.getSubject());
         newMailPage.fillBody(mail.getBody());
         newMailPage.saveDraft();
-        Assert.assertTrue(newMailPage.getSavedIdentificator());
+        Assert.assertTrue(newMailPage.isMailSaved());
     }
 
     @Test(dependsOnMethods = "saveNewMailTest")

@@ -31,7 +31,7 @@ public class CreateNewMailPage extends AbstractPage {
         super(driver);
     }
 
-    public boolean getSavedIdentificator() {
+    public boolean isMailSaved() {
         return savedIdentificator.isDisplayed();
     }
 

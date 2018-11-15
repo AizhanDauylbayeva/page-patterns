@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 public class InboxPage extends AbstractPage {
 
     @FindBy(xpath = "//*[@id='PH_user-email']")
-    private WebElement user_email;
+    private WebElement userEmailIdentificator;
 
     @FindBy(xpath = "//*[@id='b-toolbar__left']//span")
     private WebElement createNewMailButton;
@@ -16,12 +16,9 @@ public class InboxPage extends AbstractPage {
         super(driver);
     }
 
-    public WebElement getUserEmail() {
-        return user_email;
-    }
-
-    public void waitForUserEmail(){
-        waitForElementVisible(user_email);
+    public boolean isUserSignIn() {
+        waitForElementVisible(userEmailIdentificator);
+        return userEmailIdentificator.isDisplayed();
     }
 
     public void openWriteNewMail(){
