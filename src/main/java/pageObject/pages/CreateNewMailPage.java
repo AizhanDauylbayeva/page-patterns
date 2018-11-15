@@ -2,6 +2,7 @@ package pageObject.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import pageObject.pages.AbstractPage;
 
 public class CreateNewMailPage extends AbstractPage {
     private static final By ADDRESSEE_LOCATOR = By.xpath("//textarea[@data-original-name='To']");

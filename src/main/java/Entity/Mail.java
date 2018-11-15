@@ -4,7 +4,6 @@ public class Mail {
     private String addressee;
     private String subject;
     private String body;
-   // private List<Mail> letters = new ArrayList<Mail>();
 
     public Mail(String addressee, String subject, String body) {
         this.addressee = addressee;

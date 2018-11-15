@@ -3,7 +3,7 @@ package pageObject.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class SentFolderPage extends AbstractPage{
+public class SentFolderPage extends AbstractPage {
 
     private static final By SENTLIST_LOCATOR = By.xpath(".//*[@class='b-datalist b-datalist_letters b-datalist_letters_to']//*[@class='b-datalist__item__subj']");
     private static final By LOGOUT_LOCATOR = By.id("PH_logoutLink");

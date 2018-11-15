@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,14 +37,6 @@ public class DraftsFolderPage extends AbstractPage {
         return addrList;
     }
 
-    public List<WebElement> getSubjList() {
-        return subjList;
-    }
-
-    public List<WebElement> getBodyList() {
-        return bodyList;
-    }
-
     public void openDraftsFolder() {
         draftsFolderButton.click();
     }
@@ -52,7 +45,7 @@ public class DraftsFolderPage extends AbstractPage {
         sentFolderButton.click();
     }
 
-    public List<Mail> getSavedMails() {
+    public List<Mail> getSavedMailsText() {
         List<Mail> results = new ArrayList<Mail>();
         for (WebElement mail : mails) {
             String addressee = mail.findElement(By.xpath(".//div[@class='b-datalist__item__addr']")).getText();
@@ -64,5 +57,18 @@ public class DraftsFolderPage extends AbstractPage {
             results.add(new Mail(addressee, subject, body));
         }
         return results;
+    }
+
+/*    public List<Mail> getSavedMails() {
+        List<Mail> results = new ArrayList<Mail>();
+        for (WebElement mail : mails) {
+            WebElement addressee = mail.findElement(By.xpath(".//div[@class='b-datalist__item__addr']"));
+            WebElement subject = mail.findElement(By.xpath(".//div[@class='b-datalist__item__subj']"));
+        }
+        return results;
+    }*/
+
+    public void openSavedMail(){
+        getAddrList().get(0).click();
     }
 }

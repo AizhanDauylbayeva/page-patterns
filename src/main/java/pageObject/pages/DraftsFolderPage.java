@@ -3,7 +3,7 @@ package pageObject.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class DraftsFolderPage extends AbstractPage{
+public class DraftsFolderPage extends AbstractPage {
 
     private static final By FILLED_ADDRESSEE_LOCATOR = By.xpath("//div[@class='b-datalist__item__addr' and contains(string(), 'ayzhan7797@mail.ru')]");
     private static final By FILLED_SUBJECT_LOCATOR = By.xpath("//a[@data-subject = 'test(module 4.2)']");

@@ -3,7 +3,7 @@ package pageObject.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class HomePage extends AbstractPage{
+public class HomePage extends AbstractPage {
     private static final By USERNAME_LOCATOR = By.id("mailbox:login");
     private static final By PASSWORD_LOCATOR = By.id("mailbox:password");
     private static final By SIGNIN_BUTTON_LOCATOR = By.xpath("//*[@id='mailbox:submit']/input");

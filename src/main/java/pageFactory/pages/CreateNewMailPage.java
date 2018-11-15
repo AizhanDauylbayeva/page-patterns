@@ -19,7 +19,7 @@ public class CreateNewMailPage extends AbstractPage {
     private WebElement saveDraftButton;
 
     @FindBy(xpath = "//a[@class='toolbar__message_info__link']")
-    private WebElement saved;
+    private WebElement savedIdentificator;
 
     @FindBy(xpath = "//div[@class='b-toolbar__message']/a")
     private WebElement draftsFolderButton;
@@ -31,29 +31,29 @@ public class CreateNewMailPage extends AbstractPage {
         super(driver);
     }
 
-    public WebElement getSaved() {
-        return saved;
+    public boolean getSavedIdentificator() {
+        return savedIdentificator.isDisplayed();
     }
 
-    public void fillAddressee(String addr){
+    public void fillAddressee(String addr) {
         addresseeTextArea.sendKeys(addr);
     }
 
-    public void fillSubject(String subj){
+    public void fillSubject(String subj) {
         subjectTextArea.sendKeys(subj);
     }
 
-    public void fillBody(String content){
+    public void fillBody(String content) {
         driver.switchTo().frame(0);
         bodyTextArea.sendKeys(content);
         driver.switchTo().defaultContent();
     }
 
-    public void saveDraft (){
+    public void saveDraft() {
         saveDraftButton.click();
     }
 
-    public void openDraftsFolder(){
+    public void openDraftsFolder() {
         draftsFolderButton.click();
     }
 

@@ -2,6 +2,7 @@ package pageObject.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import pageObject.pages.AbstractPage;
 
 public class InboxPage extends AbstractPage {
     private static final By USER_EMAIL_LOCATOR  = By.xpath("//*[@id='PH_user-email']");
