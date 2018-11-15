@@ -30,7 +30,7 @@ public class MailTest extends Base {
     @Test(description = "Login test")
     public void loginTest() {
         inbox = new HomePage(driver).open().fillUsername(user.getUsername()).fillPassword(user.getPass()).chooseDomain().signIn();
-        Assert.assertTrue(inbox.isUserSignIn());
+        Assert.assertTrue(inbox.isUserSignIn(), "Authentication failed");
     }
 
     @Test(dependsOnMethods = "loginTest")
@@ -40,19 +40,19 @@ public class MailTest extends Base {
         newMailPage.fillSubject(mail.getSubject());
         newMailPage.fillBody(mail.getBody());
         newMailPage.saveDraft();
-        Assert.assertTrue(newMailPage.isMailSaved());
+        Assert.assertTrue(newMailPage.isMailSaved(), "The mail is not saved");
     }
 
     @Test(dependsOnMethods = "saveNewMailTest")
-    public void testContent()  {
+    public void testContent() {
         newMailPage.openDraftsFolder();
         driver.navigate().refresh();
         List<Mail> draftMails = draftsFolderPage.getSavedMailsText();
         boolean content = true;
-            content =  (draftMails.get(0).getAddressee().equals(mail.getAddressee()) &
-                    draftMails.get(0).getSubject().equals(mail.getSubject()) &
-                    draftMails.get(0).getBody().contains(mail.getBody())) ;
-        Assert.assertTrue(content);
+        content = (draftMails.get(0).getAddressee().equals(mail.getAddressee()) &&
+                draftMails.get(0).getSubject().equals(mail.getSubject()) &&
+                draftMails.get(0).getBody().contains(mail.getBody()));
+        Assert.assertTrue(content, "The draft content isn't the same as in mail");
     }
 
     @Test(dependsOnMethods = "testContent")
@@ -60,14 +60,14 @@ public class MailTest extends Base {
         List<Mail> draftMails = draftsFolderPage.getSavedMailsText();
         boolean content = false;
         for (Mail draftMail : draftMails) {
-            if (draftMail.getAddressee().equals(secondMail.getAddressee()) &
-                    draftMail.getSubject().equals(secondMail.getSubject()) &
+            if (draftMail.getAddressee().equals(secondMail.getAddressee()) &&
+                    draftMail.getSubject().equals(secondMail.getSubject()) &&
                     draftMail.getBody().equals(secondMail.getBody())) {
                 content = true;
                 break;
             }
         }
-        Assert.assertTrue(content);
+        Assert.assertTrue(content, "The second mail isn't found");
     }
 
     @Test(dependsOnMethods = "testSecondMail")
@@ -79,12 +79,12 @@ public class MailTest extends Base {
         driver.navigate().refresh();
         List<Mail> draftMails = draftsFolderPage.getSavedMailsText();
         boolean content = false;
-        if (draftMails.get(0).getAddressee().equals(mail.getAddressee()) &
-                draftMails.get(0).getSubject().equals(mail.getSubject()) &
+        if (draftMails.get(0).getAddressee().equals(mail.getAddressee()) &&
+                draftMails.get(0).getSubject().equals(mail.getSubject()) &&
                 draftMails.get(0).getBody().contains(mail.getBody())) {
             content = true;
         }
-        Assert.assertFalse(content);
+        Assert.assertFalse(content, "The mail didn't disappear from 'Drafts' folder");
     }
 
     @Test(dependsOnMethods = "sendMailTest")
@@ -93,12 +93,12 @@ public class MailTest extends Base {
         driver.navigate().refresh();
         List<Mail> sentList = sentPage.getSentList();
         boolean content = false;
-        if (sentList.get(0).getAddressee().equals(mail.getAddressee()) &
-                sentList.get(0).getSubject().equals(mail.getSubject()) &
+        if (sentList.get(0).getAddressee().equals(mail.getAddressee()) &&
+                sentList.get(0).getSubject().equals(mail.getSubject()) &&
                 sentList.get(0).getBody().contains(mail.getBody())) {
             content = true;
         }
-        Assert.assertTrue(content);
+        Assert.assertTrue(content, "The sent letter isn't in 'Sent' folder");
     }
 
     @AfterClass

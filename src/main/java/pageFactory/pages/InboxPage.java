@@ -12,7 +12,7 @@ public class InboxPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='b-toolbar__left']//span")
     private WebElement createNewMailButton;
 
-    public InboxPage(WebDriver driver){
+    public InboxPage(WebDriver driver) {
         super(driver);
     }
 
@@ -21,7 +21,7 @@ public class InboxPage extends AbstractPage {
         return userEmailIdentificator.isDisplayed();
     }
 
-    public void openWriteNewMail(){
+    public void openWriteNewMail() {
         createNewMailButton.click();
     }
 }

@@ -52,8 +52,8 @@ public class DraftsFolderPage extends AbstractPage {
         }
         return results;
     }
-    
-    public void openSavedMail(){
+
+    public void openSavedMail() {
         getAddrList().get(0).click();
     }
 }
