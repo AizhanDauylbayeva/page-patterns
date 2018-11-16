@@ -72,7 +72,7 @@ public class MailTest extends Base {
 
     @Test(dependsOnMethods = "testSecondMail")
     public void sendMailTest() {
-        draftsFolderPage.openSavedMail();
+        draftsFolderPage.openMail(mail);
         driver.navigate().refresh();
         newMailPage.sendMail();
         draftsFolderPage.openDraftsFolder();

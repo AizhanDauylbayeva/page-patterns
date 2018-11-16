@@ -53,7 +53,20 @@ public class DraftsFolderPage extends AbstractPage {
         return results;
     }
 
-    public void openSavedMail() {
-        getAddrList().get(0).click();
+    private int getIndexOfMail(Mail mail) {
+        int index = 0;
+        List<Mail> draftMails = getSavedMailsText();
+        for (int i = 0; i < draftMails.size(); i++) {
+            if (draftMails.get(i).getAddressee().equals(mail.getAddressee()) &&
+                    draftMails.get(i).getSubject().equals(mail.getSubject()) &&
+                    draftMails.get(i).getBody().equals(mail.getBody())) {
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    public void openMail(Mail mail) {
+        getAddrList().get(getIndexOfMail(mail)).click();
     }
 }
