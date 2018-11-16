@@ -22,27 +22,27 @@ public class HomePage extends AbstractPage {
         super(driver);
     }
 
-    public HomePage open(){
+    public HomePage open() {
         driver.get("https://mail.ru");
         return this;
     }
 
-    public HomePage fillUsername(String login){
+    public HomePage fillUsername(String login) {
         username.sendKeys(login);
         return this;
     }
 
-    public HomePage fillPassword(String pass){
+    public HomePage fillPassword(String pass) {
         password.sendKeys(pass);
         return this;
     }
 
-    public HomePage chooseDomain(){
+    public HomePage chooseDomain() {
         domain.click();
         return this;
     }
 
-    public InboxPage signIn(){
+    public InboxPage signIn() {
         signInButton.click();
         return new InboxPage(driver);
     }
