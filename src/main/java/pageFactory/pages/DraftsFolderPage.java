@@ -39,7 +39,7 @@ public class DraftsFolderPage extends AbstractPage {
         sentFolderButton.click();
     }
 
-    public List<Mail> getSavedMailsText() {
+    private List<Mail> getSavedMailsList() {
         List<Mail> results = new ArrayList<Mail>();
         for (WebElement mail : mails) {
             String addressee = mail.findElement(By.xpath(".//div[@class='b-datalist__item__addr']")).getText();
@@ -53,9 +53,21 @@ public class DraftsFolderPage extends AbstractPage {
         return results;
     }
 
+    public boolean isSavedMailExist(Mail mail) {
+        List<Mail> draftMails = getSavedMailsList();
+        boolean content = false;
+        for (Mail draftMail : draftMails) {
+            if (draftMail.getAddressee().equals(mail.getAddressee()) &&
+                    draftMail.getSubject().equals(mail.getSubject()) &&
+                    draftMail.getBody().contains(mail.getBody())){
+            content = true;
+            break;}
+        } return content;
+    }
+
     private int getIndexOfMail(Mail mail) {
         int index = 0;
-        List<Mail> draftMails = getSavedMailsText();
+        List<Mail> draftMails = getSavedMailsList();
         for (int i = 0; i < draftMails.size(); i++) {
             if (draftMails.get(i).getAddressee().equals(mail.getAddressee()) &&
                     draftMails.get(i).getSubject().equals(mail.getSubject()) &&

@@ -47,27 +47,12 @@ public class MailTest extends Base {
     public void testContent() {
         newMailPage.openDraftsFolder();
         driver.navigate().refresh();
-        List<Mail> draftMails = draftsFolderPage.getSavedMailsText();
-        boolean content = true;
-        content = (draftMails.get(0).getAddressee().equals(mail.getAddressee()) &&
-                draftMails.get(0).getSubject().equals(mail.getSubject()) &&
-                draftMails.get(0).getBody().contains(mail.getBody()));
-        Assert.assertTrue(content, "The draft content isn't the same as in mail");
+        Assert.assertTrue(draftsFolderPage.isSavedMailExist(mail), "The draft content isn't the same as in mail");
     }
 
     @Test(dependsOnMethods = "testContent")
     public void testSecondMail() {
-        List<Mail> draftMails = draftsFolderPage.getSavedMailsText();
-        boolean content = false;
-        for (Mail draftMail : draftMails) {
-            if (draftMail.getAddressee().equals(secondMail.getAddressee()) &&
-                    draftMail.getSubject().equals(secondMail.getSubject()) &&
-                    draftMail.getBody().equals(secondMail.getBody())) {
-                content = true;
-                break;
-            }
-        }
-        Assert.assertTrue(content, "The second mail isn't found");
+        Assert.assertTrue(draftsFolderPage.isSavedMailExist(secondMail), "The second mail isn't found");
     }
 
     @Test(dependsOnMethods = "testSecondMail")
@@ -77,28 +62,14 @@ public class MailTest extends Base {
         newMailPage.sendMail();
         draftsFolderPage.openDraftsFolder();
         driver.navigate().refresh();
-        List<Mail> draftMails = draftsFolderPage.getSavedMailsText();
-        boolean content = false;
-        if (draftMails.get(0).getAddressee().equals(mail.getAddressee()) &&
-                draftMails.get(0).getSubject().equals(mail.getSubject()) &&
-                draftMails.get(0).getBody().contains(mail.getBody())) {
-            content = true;
-        }
-        Assert.assertFalse(content, "The mail didn't disappear from 'Drafts' folder");
+        Assert.assertFalse(draftsFolderPage.isSavedMailExist(mail), "The mail didn't disappear from 'Drafts' folder");
     }
 
     @Test(dependsOnMethods = "sendMailTest")
     public void sentFolderTest() {
         draftsFolderPage.openSentFolder();
         driver.navigate().refresh();
-        List<Mail> sentList = sentPage.getSentList();
-        boolean content = false;
-        if (sentList.get(0).getAddressee().equals(mail.getAddressee()) &&
-                sentList.get(0).getSubject().equals(mail.getSubject()) &&
-                sentList.get(0).getBody().contains(mail.getBody())) {
-            content = true;
-        }
-        Assert.assertTrue(content, "The sent letter isn't in 'Sent' folder");
+        Assert.assertTrue(sentPage.isSentMailExist(mail), "The sent letter isn't in 'Sent' folder");
     }
 
     @AfterClass

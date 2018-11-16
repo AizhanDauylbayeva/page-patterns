@@ -21,7 +21,7 @@ public class SentFolderPage extends AbstractPage {
         super(driver);
     }
 
-    public List<Mail> getSentList() {
+    private List<Mail> getSentList() {
         List<Mail> results = new ArrayList<Mail>();
         for (WebElement mail : mails) {
             String addressee = mail.findElement(By.xpath(".//div[@class='b-datalist__item__addr']")).getText();
@@ -33,6 +33,18 @@ public class SentFolderPage extends AbstractPage {
             results.add(new Mail(addressee, subject, body));
         }
         return results;
+    }
+
+    public boolean isSentMailExist(Mail mail) {
+        List<Mail> draftMails = getSentList();
+        boolean content = false;
+        for (Mail draftMail : draftMails) {
+            if (draftMail.getAddressee().equals(mail.getAddressee()) &&
+                    draftMail.getSubject().equals(mail.getSubject()) &&
+                    draftMail.getBody().contains(mail.getBody())){
+                content = true;
+                break;}
+        } return content;
     }
 
     public void logout() {
