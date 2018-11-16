@@ -15,7 +15,7 @@ public class SentFolderPage extends AbstractPage {
     private List<WebElement> mails;
 
     @FindBy(id = "PH_logoutLink")
-    private static WebElement logout;
+    private WebElement logout;
 
     public SentFolderPage(WebDriver driver) {
         super(driver);
@@ -41,10 +41,12 @@ public class SentFolderPage extends AbstractPage {
         for (Mail draftMail : draftMails) {
             if (draftMail.getAddressee().equals(mail.getAddressee()) &&
                     draftMail.getSubject().equals(mail.getSubject()) &&
-                    draftMail.getBody().contains(mail.getBody())){
+                    draftMail.getBody().contains(mail.getBody())) {
                 content = true;
-                break;}
-        } return content;
+                break;
+            }
+        }
+        return content;
     }
 
     public void logout() {

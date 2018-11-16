@@ -59,10 +59,12 @@ public class DraftsFolderPage extends AbstractPage {
         for (Mail draftMail : draftMails) {
             if (draftMail.getAddressee().equals(mail.getAddressee()) &&
                     draftMail.getSubject().equals(mail.getSubject()) &&
-                    draftMail.getBody().contains(mail.getBody())){
-            content = true;
-            break;}
-        } return content;
+                    draftMail.getBody().contains(mail.getBody())) {
+                content = true;
+                break;
+            }
+        }
+        return content;
     }
 
     private int getIndexOfMail(Mail mail) {
