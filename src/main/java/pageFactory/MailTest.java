@@ -8,8 +8,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageFactory.pages.*;
 
-import java.util.List;
-
 public class MailTest extends Base {
     private InboxPage inbox;
     private Mail mail = new Mail("ayzhan7797@mail.ru", "test(module 4.2)", "Hello!");
